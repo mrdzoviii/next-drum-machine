@@ -2,15 +2,15 @@
 import React from 'react';
 import { Volume2, VolumeX } from 'react-feather';
 
-import VisuallyHidden from '../VisuallyHidden';
-import MaxWidthWrapper from '../MaxWidthWrapper';
+import VisuallyHidden from 'src/components/VisuallyHidden';
+import MaxWidthWrapper from 'src/components/MaxWidthWrapper';
 import styles from './Header.module.css';
+import {usePreferences} from "src/context/PreferencesProvider";
 
 function Header() {
   const id = React.useId();
 
-  // TODO: Global state?
-  const soundEnabled = true;
+  const {muted, toggle} = usePreferences();
 
   return (
     <header className={styles.wrapper}>
@@ -20,17 +20,15 @@ function Header() {
         <a href="/">Kool Website</a>
 
         <button
-          onClick={() => {
-            // TODO: flip `soundEnabled`
-          }}
+          onClick={toggle}
         >
-          {soundEnabled ? (
+          {!muted ? (
             <Volume2 />
           ) : (
             <VolumeX />
           )}
           <VisuallyHidden>
-            {soundEnabled
+            {!muted
               ? 'Disable sound effects'
               : 'Enable sound effects'}
           </VisuallyHidden>
